@@ -3,8 +3,7 @@ REM git config --global commit.template /d/MF/OS.abc/hexobdgsrc/.gitcommit
 REM git config --global core.editor vim
 git add . 
 git commit -m "update"
-REM github
-git push master master
+git push origin master
 REM gitlab
 REM git push origin main
 REM git push -u rxzsrc source
