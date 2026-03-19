@@ -32,12 +32,12 @@ jobs:
       - name: SukiSu-Ultra
         run: |
           cd kernel-source
-          curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s susfs-builtin
-          cd ..
-          # curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s susfs-main
-          # # cd KernelSU
-          # # git reset --hard 20b58dcf4405d243d26c2323389318ecaa9a6147   #HEAD is now at 20b58dcf kernel: Bump KSU_VERSION_API to 3.1.9
-          # # cd ../..
+          # curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s susfs-builtin
+          # cd ..
+          curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s susfs-main
+          cd KernelSU
+          git reset --hard 20b58dcf4405d243d26c2323389318ecaa9a6147   #HEAD is now at 20b58dcf kernel: Bump KSU_VERSION_API to 3.1.9
+          cd ../..
 
       - name: Build kernel
         run: |
