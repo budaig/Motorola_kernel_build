@@ -1,6 +1,6 @@
 name: Build Kernel  nio + KernelSU next
-on:
 
+on:
   workflow_dispatch:
 
 jobs:
