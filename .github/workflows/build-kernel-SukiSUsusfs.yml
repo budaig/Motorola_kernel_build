@@ -1,4 +1,4 @@
-name: Build Kernel  nio + SukiSU Susfs
+name: Build Kernel  nio + SukiSU
 
 on:
   workflow_dispatch:
@@ -7,7 +7,7 @@ jobs:
   build-kernel:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup environment
         run: |
           echo "ANYKERNEL_SOURCE=$(cat config_SukiSUsusfs.env | grep -w "ANYKERNEL_SOURCE" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
