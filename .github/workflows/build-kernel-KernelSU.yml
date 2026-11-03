@@ -12,12 +12,12 @@ jobs:
       - uses: actions/checkout@v4
       - name: Setup environment
         run: |
-          echo "ANYKERNEL_SOURCE=$(cat config_KernelSU.env | grep -w "ANYKERNEL_SOURCE" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
-          echo "ANYKERNEL_SOURCE_BRANCH=$(cat config_KernelSU.env | grep -w "ANYKERNEL_SOURCE_BRANCH" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
-          echo "KERNEL_SOURCE=$(cat config_KernelSU.env | grep -w "KERNEL_SOURCE" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
-          echo "KERNEL_SOURCE_BRANCH=$(cat config_KernelSU.env | grep -w "KERNEL_SOURCE_BRANCH" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
-          echo "KERNEL_CONFIG=$(cat config_KernelSU.env | grep -w "KERNEL_CONFIG" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
-          echo "BUILD_ARGS=$(cat config_KernelSU.env | grep -w "BUILD_ARGS" | head -n 1 | cut -d ":" -f 2)" >> $GITHUB_ENV
+          echo "ANYKERNEL_SOURCE=$(cat configKernelSU.env | grep -w "ANYKERNEL_SOURCE" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
+          echo "ANYKERNEL_SOURCE_BRANCH=$(cat configKernelSU.env | grep -w "ANYKERNEL_SOURCE_BRANCH" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
+          echo "KERNEL_SOURCE=$(cat configKernelSU.env | grep -w "KERNEL_SOURCE" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
+          echo "KERNEL_SOURCE_BRANCH=$(cat configKernelSU.env | grep -w "KERNEL_SOURCE_BRANCH" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
+          echo "KERNEL_CONFIG=$(cat configKernelSU.env | grep -w "KERNEL_CONFIG" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
+          echo "BUILD_ARGS=$(cat configKernelSU.env | grep -w "BUILD_ARGS" | head -n 1 | cut -d ":" -f 2)" >> $GITHUB_ENV
           sudo apt install python2 libncurses5
           sudo apt-get install libselinux-dev
       - name: Pull toolchain
@@ -32,6 +32,9 @@ jobs:
           cd kernel-source
           cat >> /arch/arm64/configs/defconfig <<EOF
           CONFIG_KSU=y
+          CONFIG_KPROBES=y
+          CONFIG_KPROBE_EVENTS=y
+          CONFIG_KSU_KPROBE_HOOKS=y
           EOF
           echo "defconfig done"
 
@@ -39,7 +42,6 @@ jobs:
         run: |
           cd kernel-source
           curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s v0.9.5
-          cd ..
 
       - name: Build kernel
         run: |
