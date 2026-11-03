@@ -43,14 +43,6 @@ jobs:
       - name: Pull kernel source
         run: |
           git clone --depth=1 ${{ env.KERNEL_SOURCE }} -b ${{ env.KERNEL_SOURCE_BRANCH }} kernel-source
-
-      - name: KernelSU-Next
-        run: |
-          cd kernel-source
-          cat >> arch/arm64/configs/nio_defconfig <<EOF 
-          CONFIG_KSU=y
-          EOF
-          echo "defconfig done"
           PATCH_DIR="${KERNEL_PATCH_DIR:-$GITHUB_WORKSPACE/patches}"
           if [ -d "$PATCH_DIR" ]; then
             for f in $(ls -1 "$PATCH_DIR"/knext*.patch 2>/dev/null | sort -V); do
@@ -62,6 +54,14 @@ jobs:
           else
             echo "WARNING: patches directory not found at $PATCH_DIR, skipping patches."
           fi
+
+      - name: KernelSU-Next
+        run: |
+          cd kernel-source
+          cat >> arch/arm64/configs/nio_defconfig <<EOF 
+          CONFIG_KSU=y
+          EOF
+          echo "defconfig done"
           # curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/stable/kernel/setup.sh" | bash -s legacy
           curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy
           cd ..
