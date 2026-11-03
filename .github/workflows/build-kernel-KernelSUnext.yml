@@ -15,7 +15,7 @@ jobs:
   build-kernel:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup environment
         run: |
           echo "ANYKERNEL_SOURCE=$(cat configKernelSUnext.env | grep -w "ANYKERNEL_SOURCE" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
@@ -41,7 +41,7 @@ jobs:
       - name: KernelSU-Next
         run: |
           cd kernel-source
-          cat >> arch/arm64/configs/defconfig <<EOF 
+          cat >> arch/arm64/configs/nio_defconfig <<EOF 
           CONFIG_KSU=y
           EOF
           echo "defconfig done"

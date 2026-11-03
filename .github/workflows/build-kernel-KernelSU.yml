@@ -34,7 +34,7 @@ jobs:
       - name: KernelSU
         run: |
           cd kernel-source
-          cat >> arch/arm64/configs/defconfig <<EOF
+          cat >> arch/arm64/configs/nio_defconfig <<EOF
           CONFIG_KSU=y
           CONFIG_KPROBES=y
           CONFIG_KPROBE_EVENTS=y
