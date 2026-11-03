@@ -51,7 +51,7 @@ jobs:
           CONFIG_KSU=y
           EOF
           echo "defconfig done"
-          PATCH_DIR="${KERNEL_PATCH_DIR:-patches}"
+          PATCH_DIR="${KERNEL_PATCH_DIR:-$GITHUB_WORKSPACE/patches}"
           if [ -d "$PATCH_DIR" ]; then
             for f in $(ls -1 "$PATCH_DIR"/knext*.patch 2>/dev/null | sort -V); do
               [ -f "$f" ] || continue
