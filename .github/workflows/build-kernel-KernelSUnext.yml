@@ -3,7 +3,13 @@ name: Build Kernel  nio + KernelSU next
 on:
   workflow_dispatch:
 
-# env:
+env:
+  KERNEL_PATCH_DIR: patches
+  # kernelpatch_file1: patches/knext1.patch
+  # kernelpatch_file2: patches/knext2.patch
+  # kernelpatch_file3: patches/knext3.patch
+  # kernelpatch_file4: patches/knext4.patch
+  # kernelpatch_file5: patches/knext5.patch
   # ANYKERNEL_SOURCE: https://github.com/osm0sis/AnyKernel3.git
   # ANYKERNEL_SOURCE_BRANCH: master
   # KERNEL_SOURCE: https://github.com/Enceka/kernel_motorola_sm8250.git
@@ -46,11 +52,12 @@ jobs:
           EOF
           echo "defconfig done"
           cd kernel
-          git apply knext1.patch
-          git apply knext2.patch
-          git apply knext3.patch
-          git apply knext4.patch
-          git apply knext5.patch
+          PATCH_DIR="${KERNEL_PATCH_DIR:-patches}"
+          for f in $(ls -1 "$PATCH_DIR"/knext*.patch | sort -V); do
+            [ -f "$f" ] || continue
+            echo "Applying $f"
+            git apply "$f"
+          done
           cd ..
           # curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/stable/kernel/setup.sh" | bash -s legacy
           curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy
