@@ -38,7 +38,7 @@ jobs:
         run: |
           git clone --depth=1 ${{ env.KERNEL_SOURCE }} -b ${{ env.KERNEL_SOURCE_BRANCH }} kernel-source
           cd kernel-source
-          cat >> /arch/arm64/configs/nio_defconfig <<EOF 
+          cat >> arch/arm64/configs/defconfig <<EOF 
           CONFIG_KSU=y
           EOF
           echo "defconfig done"
@@ -48,12 +48,13 @@ jobs:
           cd kernel-source
           # curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/stable/kernel/setup.sh" | bash -s legacy
           curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy
+          cd ..
 
       - name: Build kernel
         run: |
           export KBUILD_BUILD_USER="hiahia"
           export PATH=$GITHUB_WORKSPACE/clang/bin:${PATH}
-          args="                  ARCH=arm64 \
+          args="                ARCH=arm64 \
                                   O=../out \
                                   ${{ env.BUILD_ARGS }} \
                                   CLANG_TRIPLE=aarch64-linux-gnu- \
