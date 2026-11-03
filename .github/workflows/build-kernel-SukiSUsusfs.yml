@@ -35,14 +35,17 @@ jobs:
           cd kernel-source
           cat >> arch/arm64/configs/nio_defconfig <<EOF
           CONFIG_KSU=y
+          CONFIG_KPM=y
+          CONFIG_KSU_HACK_ARM64_BRANCH_LINK=y
+          CONFIG_KSU_SUSFS =y
           EOF
           echo "defconfig done"
-          # curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/builtin/kernel/setup.sh" | bash -s builtin
+          curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/builtin/kernel/setup.sh" | bash -s builtin
           # cd ..
           # curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/susfs_features/kernel/setup.sh" | bash -s susfs_features
-          curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s main
-          cd KernelSU
-          git reset --hard 20b58dcf4405d243d26c2323389318ecaa9a6147   #HEAD is now at 20b58dcf kernel: Bump KSU_VERSION_API to 3.1.9
+          # curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s main
+          # cd KernelSU
+          # git reset --hard 20b58dcf4405d243d26c2323389318ecaa9a6147   #HEAD is now at 20b58dcf kernel: Bump KSU_VERSION_API to 3.1.9
           cd ../..
 
       - name: Build kernel
