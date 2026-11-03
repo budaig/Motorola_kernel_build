@@ -29,7 +29,12 @@ jobs:
       - name: Pull kernel source
         run: |
           git clone --depth=1 ${{ env.KERNEL_SOURCE }} -b ${{ env.KERNEL_SOURCE_BRANCH }} kernel-source
-          
+          cd kernel-source
+          cat >> /arch/arm64/configs/defconfig <<EOF
+          CONFIG_KSU=y
+          EOF
+          echo "defconfig done"
+
       - name: KernelSU
         run: |
           cd kernel-source
