@@ -45,6 +45,13 @@ jobs:
           CONFIG_KSU=y
           EOF
           echo "defconfig done"
+          cd kernel
+          git apply knext1.patch
+          git apply knext2.patch
+          git apply knext3.patch
+          git apply knext4.patch
+          git apply knext5.patch
+          cd ..
           # curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/stable/kernel/setup.sh" | bash -s legacy
           curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy
           cd ..
