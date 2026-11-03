@@ -51,14 +51,17 @@ jobs:
           CONFIG_KSU=y
           EOF
           echo "defconfig done"
-          cd kernel
           PATCH_DIR="${KERNEL_PATCH_DIR:-patches}"
-          for f in $(ls -1 "$PATCH_DIR"/knext*.patch | sort -V); do
-            [ -f "$f" ] || continue
-            echo "Applying $f"
-            git apply "$f"
-          done
-          cd ..
+          if [ -d "$PATCH_DIR" ]; then
+            for f in $(ls -1 "$PATCH_DIR"/knext*.patch 2>/dev/null | sort -V); do
+              [ -f "$f" ] || continue
+              echo "Applying $f"
+              git apply "$f"
+            done
+            echo "All patches applied."
+          else
+            echo "WARNING: patches directory not found at $PATCH_DIR, skipping patches."
+          fi
           # curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/stable/kernel/setup.sh" | bash -s legacy
           curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy
           cd ..
